@@ -1,12 +1,16 @@
+"use client";
+
+import { useFormStatus } from "react-dom";
+
 interface FormBtnProps {
 	text: string;
-	loading: boolean;
 }
 
-export default function FormBtn({ text, loading }: FormBtnProps) {
+export default function FormBtn({ text }: FormBtnProps) {
+	const { pending } = useFormStatus();
 	return (
 		<button
-			disabled={loading}
+			disabled={pending}
 			className="primary-btn
       h-10
       disabled:bg-neutral-500
@@ -14,7 +18,7 @@ export default function FormBtn({ text, loading }: FormBtnProps) {
       disabled:cursor-not-allowed
       "
 		>
-			{loading ? "로딩 중..." : text}
+			{pending ? "로딩 중..." : text}
 		</button>
 	);
 }
