@@ -1,5 +1,10 @@
 "use server";
 
+import {
+	PASSWORD_ERROR_MESSAGE,
+	PASSWORD_MIN_LENGTH,
+	PASSWORD_REGEX,
+} from "@/lib/constants";
 import { z } from "zod";
 
 const checkPassword = ({
@@ -28,8 +33,11 @@ const formSchema = z
 			})
 			.email("이메일 형식이어야 함")
 			.toLowerCase(),
-		password: z.string().min(4),
-		confirmPassword: z.string().min(4),
+		password: z
+			.string()
+			.min(PASSWORD_MIN_LENGTH)
+			.regex(PASSWORD_REGEX, PASSWORD_ERROR_MESSAGE),
+		confirmPassword: z.string().min(PASSWORD_MIN_LENGTH),
 	})
 	.refine(checkPassword, {
 		message: "두 비밀 번호가 동일해야 함",
